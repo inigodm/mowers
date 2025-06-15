@@ -10,6 +10,10 @@ class InvalidInputError(val msg: String): RuntimeException(msg) {
         @JvmStatic
         fun becauseSecondLineShouldBeRobot(input: String) =
             InvalidInputError("Second line of input should be a robot initial state. p.e.: '1 2 N', actual value: $input")
+
+        @JvmStatic
+        fun becauseThirdLineShouldContainModifiers(line: String) =
+            InvalidInputError("Third line of input should be a robot state mutation list: A word with valid letters: L, R, M, as p.e.: 'LRMRLRRMMM', actual value: $line")
     }
 
 }

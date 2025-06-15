@@ -26,8 +26,7 @@ class InputValidationTests {
         """.trimMargin()
         val e = assertThrows<InvalidInputError> { InputParser().parse(input) }
         // I want this exact message in my logs if is an execution error
-        assertThat(e.message).isEqualTo("""First line of input should be a map size. p.e.: '5 5', actual value: 1 2 N
-            LLLMRM""")
+        assertThat(e.message).isEqualTo("""First line of input should be a map size. p.e.: '5 5', actual value: 1 2 N""")
 
     }
 
@@ -99,5 +98,44 @@ class InputValidationTests {
         val e = assertThrows<InvalidInputError> { InputParser().parse(input) }
         // I want this exact message in my logs if is an execution error
         assertThat(e.message).isEqualTo("""Second line of input should be a robot initial state. p.e.: '1 2 N', actual value: 1 X N""")
+    }
+
+    @Test
+    fun `should parse robot movements`() {
+        val input = """5 6
+            1 2 N
+            LLLMRM
+        """.trimMargin()
+        val res =  InputParser().parse(input)
+        res.robotStatusModifiers.forEachIndexed { index, modifier ->
+            when (index) {
+                0 -> assertThat(modifier).isEqualTo("L")
+                1 -> assertThat(modifier).isEqualTo("L")
+                2 -> assertThat(modifier).isEqualTo("L")
+                3 -> assertThat(modifier).isEqualTo("M")
+                4 -> assertThat(modifier).isEqualTo("R")
+                5 -> assertThat(modifier).isEqualTo("M")
+            }
+        }
+    }
+
+    @Test
+    fun `should fail if robot movements are not valid`() {
+        val input = """5 6
+			1 2 N
+			LLLMRMZ
+		""".trimMargin()
+        val e = assertThrows<InvalidInputError> { InputParser().parse(input) }
+        assertThat(e.message).isEqualTo("""Third line of input should be a robot state mutation list: A word with valid letters: L, R, M, as p.e.: 'LRMRLRRMMM', actual value: LLLMRMZ""")
+    }
+
+    @Test
+    fun `should fail if robot movements are empty`() {
+        val input = """5 6
+			1 2 N
+			
+		""".trimMargin()
+        val e = assertThrows<InvalidInputError> { InputParser().parse(input) }
+        assertThat(e.message).isEqualTo("""Third line of input should be a robot state mutation list: A word with valid letters: L, R, M, as p.e.: 'LRMRLRRMMM', actual value: """)
     }
 }

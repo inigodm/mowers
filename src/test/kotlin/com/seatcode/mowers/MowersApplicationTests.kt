@@ -3,6 +3,8 @@ package com.seatcode.mowers
 import assertk.assertThat
 import assertk.assertions.isEqualTo
 import com.seatcode.mowers.application.CalculateFinalPositions
+import com.seatcode.mowers.infrastructure.InputParser
+import com.seatcode.mowers.infrastructure.InvalidInputError
 import com.seatcode.mowers.infrastructure.MowersCLI
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
@@ -27,5 +29,4 @@ class MowersApplicationTests {
 
 		assertThat(output).isEqualTo(expectedOutput)
 	}
-
 }

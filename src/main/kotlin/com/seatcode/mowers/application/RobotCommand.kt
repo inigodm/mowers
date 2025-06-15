@@ -5,6 +5,5 @@ data class RobotCommand(
     val plateauSizeY: Int = 0,
     val robotX: Int = 0,
     val robotY: Int = 0,
-    val robotOrientation: String = ""
-    ) {
-}
+    val robotOrientation: String = "",
+    val robotStatusModifiers: List<String> = emptyList())
