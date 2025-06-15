@@ -14,7 +14,7 @@ class InputValidationTests {
             1 2 N
             LLLMRM
         """.trimMargin()
-        val res =  InputParser().parse(input)
+        val res = InputParser().parse(input)
         assertThat(res.plateauSizeX).isEqualTo(5)
         assertThat(res.plateauSizeY).isEqualTo(6)
     }
@@ -45,7 +45,7 @@ class InputValidationTests {
             1 2 N
             LLLMRM
         """.trimMargin()
-        val res =  InputParser().parse(input)
+        val res = InputParser().parse(input)
         assertThat(res.plateauSizeX).isEqualTo(5)
         assertThat(res.plateauSizeY).isEqualTo(6)
     }
@@ -56,10 +56,10 @@ class InputValidationTests {
             1 2 N
             LLLMRM
         """.trimMargin()
-        val res =  InputParser().parse(input)
-        assertThat(res.robotX).isEqualTo(1)
-        assertThat(res.robotY).isEqualTo(2)
-        assertThat(res.robotOrientation).isEqualTo("N")
+        val res = InputParser().parse(input)
+        assertThat(res.robots[0].x).isEqualTo(1)
+        assertThat(res.robots[0].y).isEqualTo(2)
+        assertThat(res.robots[0].orientation).isEqualTo("N")
     }
 
     @Test
@@ -106,8 +106,8 @@ class InputValidationTests {
             1 2 N
             LLLMRM
         """.trimMargin()
-        val res =  InputParser().parse(input)
-        res.robotStatusModifiers.forEachIndexed { index, modifier ->
+        val res = InputParser().parse(input)
+        res.robots[0].statusModifiers.forEachIndexed { index, modifier ->
             when (index) {
                 0 -> assertThat(modifier).isEqualTo("L")
                 1 -> assertThat(modifier).isEqualTo("L")
@@ -137,5 +137,42 @@ class InputValidationTests {
 		""".trimMargin()
         val e = assertThrows<InvalidInputError> { InputParser().parse(input) }
         assertThat(e.message).isEqualTo("""Third line of input should be a robot state mutation list: A word with valid letters: L, R, M, as p.e.: 'LRMRLRRMMM', actual value: """)
+    }
+
+    @Test
+    fun `should allow multiple robots in the same file`() {
+        val input = """5 6
+            1 2 N
+            LLLMRM
+            3 4 E
+            RMMMLL
+        """.trimMargin()
+        val res = InputParser().parse(input)
+        assertThat(res.robots[0].x).isEqualTo(1)
+        assertThat(res.robots[0].y).isEqualTo(2)
+        assertThat(res.robots[0].orientation).isEqualTo("N")
+        res.robots[0].statusModifiers.forEachIndexed { index, modifier ->
+            when (index) {
+                0 -> assertThat(modifier).isEqualTo("L")
+                1 -> assertThat(modifier).isEqualTo("L")
+                2 -> assertThat(modifier).isEqualTo("L")
+                3 -> assertThat(modifier).isEqualTo("M")
+                4 -> assertThat(modifier).isEqualTo("R")
+                5 -> assertThat(modifier).isEqualTo("M")
+            }
+        }
+        assertThat(res.robots[1].x).isEqualTo(3)
+        assertThat(res.robots[1].y).isEqualTo(4)
+        assertThat(res.robots[1].orientation).isEqualTo("E")
+        res.robots[1].statusModifiers.forEachIndexed { index, modifier ->
+            when (index) {
+                0 -> assertThat(modifier).isEqualTo("R")
+                1 -> assertThat(modifier).isEqualTo("M")
+                2 -> assertThat(modifier).isEqualTo("M")
+                3 -> assertThat(modifier).isEqualTo("M")
+                4 -> assertThat(modifier).isEqualTo("L")
+                5 -> assertThat(modifier).isEqualTo("L")
+            }
+        }
     }
 }
