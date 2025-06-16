@@ -11,7 +11,8 @@ class MowersCLI(private val service: CalculateFinalPositions,
 
     @Throws(Exception::class)
     override fun run(vararg args: String?) {
-        val positions = runKata(args.getOrNull(0) ?: "")
+        val input = args.filterNotNull().joinToString(" ")
+        val positions = runKata(input)
         drawResults(positions)
     }
 

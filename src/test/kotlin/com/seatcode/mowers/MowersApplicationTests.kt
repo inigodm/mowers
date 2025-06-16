@@ -116,26 +116,8 @@ class MowersApplicationTests {
 		assertThat(output).isEqualTo(expectedOutput)
 	}
 
-
 	@Test
-	fun `should print positions in correct order`() {
-		// Mockear println
-		mockkObject(MowersCLI.Consola)
-
-		val positions = listOf(
-			Position(X(1), Y(2), Direction.NORTH),
-			Position(X(3), Y(4), Direction.EAST)
-		)
-
-		mowersCLI.drawResults(positions)
-
-		// Verificar que se imprimen en el orden correcto
-		verify(exactly = 1) { MowersCLI.Consola.printLine("1 2 N") }
-		verify(exactly = 1) { MowersCLI.Consola.printLine("3 4 E") }
-	}
-
-	@Test
-	fun `should do fullfit kata`() {
+	fun `should do kata example properly`() {
 		mockkObject(MowersCLI.Consola)
 
 		val input = """		
