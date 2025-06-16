@@ -64,7 +64,24 @@ class InputValidationTests {
 
     @Test
     fun `should accept multiple whitespaces wrapping robot status`() {
-        //TODO
+        val input = """   5   6   
+                1   2    N    
+               LLLMRM   
+        """.trimMargin()
+        val res = InputParser().parse(input)
+        assertThat(res.robots[0].x).isEqualTo(1)
+        assertThat(res.robots[0].y).isEqualTo(2)
+        assertThat(res.robots[0].orientation).isEqualTo("N")
+        res.robots[0].statusModifiers.forEachIndexed { index, modifier ->
+            when (index) {
+                0 -> assertThat(modifier).isEqualTo("L")
+                1 -> assertThat(modifier).isEqualTo("L")
+                2 -> assertThat(modifier).isEqualTo("L")
+                3 -> assertThat(modifier).isEqualTo("M")
+                4 -> assertThat(modifier).isEqualTo("R")
+                5 -> assertThat(modifier).isEqualTo("M")
+            }
+        }
     }
 
     @Test
