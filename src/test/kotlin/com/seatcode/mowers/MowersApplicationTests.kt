@@ -10,15 +10,14 @@ import com.seatcode.mowers.domain.vo.Y
 import com.seatcode.mowers.infrastructure.InputParser
 import com.seatcode.mowers.infrastructure.MowersCLI
 import org.junit.jupiter.api.Test
-import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.test.context.SpringBootTest
+import kotlin.test.BeforeTest
 import kotlin.test.Ignore
 
-@SpringBootTest
 class MowersApplicationTests {
 
 	lateinit var inputParser: InputParser
 	lateinit var mowersCLI: MowersCLI
+	lateinit var calculateFinalPositions: CalculateFinalPositions
 
 	@BeforeTest
 	fun setUp() {
