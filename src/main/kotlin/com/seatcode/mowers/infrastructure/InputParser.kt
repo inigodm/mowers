@@ -15,11 +15,11 @@ class InputParser {
 
     fun parse(input: String): RobotCommand {
         val lines = input.lines().map { it.trim().uppercase() }
-        val (plateauSizeX, plateauSizeY) = findPlateauSize(input)
+        val (plateauMaxX, plateauMaxY) = findPlateauSize(input)
         val robots = findRobots(lines.drop(1))
         return RobotCommand(
-            plateauSizeX = plateauSizeX,
-            plateauSizeY = plateauSizeY,
+            plateauSizeX = plateauMaxX + 1,
+            plateauSizeY = plateauMaxY + 1,
             robots = robots)
     }
 
@@ -43,7 +43,7 @@ class InputParser {
         return regexRobotStatusModifiers.matchEntire(line)
             ?.destructured
             ?.let { (word) ->word.map { it.toString()} }
-            ?: throw InvalidInputError.becauseThirdLineShouldContainModifiers(line)
+            ?: throw InvalidInputError.becauseRobotMovementsLineIsInIncorrectFormat(line)
     }
 
     fun findPlateauSize(input: String): Pair<Int, Int> {
@@ -51,7 +51,7 @@ class InputParser {
         return regexPlateauSize.matchEntire(line)
             ?.destructured
             ?.let { (x, y) -> Pair(x.toInt(), y.toInt()) }
-            ?: throw InvalidInputError.becauseFirstLineShouldBeMapSize(line)
+            ?: throw InvalidInputError.becausePlateauSizeLineIsInIncorrectFormat(line)
     }
 
     fun findRobotInitialState(input: String): Triple<Int, Int, String> {
@@ -59,6 +59,6 @@ class InputParser {
         return regexRobotStatus.matchEntire(line)
             ?.destructured
             ?.let { (x, y, orientation) -> Triple(x.toInt(), y.toInt(), orientation) }
-            ?: throw InvalidInputError.becauseSecondLineShouldBeRobot(line)
+            ?: throw InvalidInputError.becauseRobotInitialStateLineIsInIncorrectFormat(line)
     }
 }

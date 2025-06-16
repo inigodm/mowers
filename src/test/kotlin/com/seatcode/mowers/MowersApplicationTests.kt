@@ -3,8 +3,9 @@ package com.seatcode.mowers
 import assertk.assertThat
 import assertk.assertions.isEqualTo
 import com.seatcode.mowers.application.CalculateFinalPositions
-import com.seatcode.mowers.domain.Direction
-import com.seatcode.mowers.domain.Robot
+import com.seatcode.mowers.domain.robot.Position
+import com.seatcode.mowers.domain.vo.Direction
+import com.seatcode.mowers.domain.robot.Robot
 import com.seatcode.mowers.domain.vo.X
 import com.seatcode.mowers.domain.vo.Y
 import com.seatcode.mowers.infrastructure.InputParser
@@ -32,7 +33,7 @@ class MowersApplicationTests {
 			1 2 N
 			LL
 		""".trimIndent()
-		val expectedOutput = listOf(Robot.Position(X.of(1), Y.of(2), Direction.SOUTH))
+		val expectedOutput = listOf(Position(X.of(1), Y.of(2), Direction.SOUTH))
 
 		val output = mowersCLI.runKata(input)
 
@@ -46,7 +47,7 @@ class MowersApplicationTests {
 			1 2 N
 			L
 		""".trimIndent()
-		val expectedOutput = listOf(Robot.Position(X.of(1), Y.of(2), Direction.WEST))
+		val expectedOutput = listOf(Position(X.of(1), Y.of(2), Direction.WEST))
 
 
 		val output = mowersCLI.runKata(input)
@@ -61,7 +62,7 @@ class MowersApplicationTests {
 			1 2 N
 			R
 		""".trimIndent()
-		val expectedOutput = listOf(Robot.Position(X.of(1), Y.of(2), Direction.EAST))
+		val expectedOutput = listOf(Position(X.of(1), Y.of(2), Direction.EAST))
 
 
 		val output = mowersCLI.runKata(input)
@@ -76,7 +77,7 @@ class MowersApplicationTests {
 			1 2 N
 			LLLLM
 		""".trimIndent()
-		val expectedOutput = listOf(Robot.Position(X.of(1), Y.of(3), Direction.NORTH))
+		val expectedOutput = listOf(Position(X.of(1), Y.of(3), Direction.NORTH))
 
 
 		val output = mowersCLI.runKata(input)
@@ -89,9 +90,24 @@ class MowersApplicationTests {
 		val input = """		
 			5 5
 			1 2 N
-			LLLLMMMMMM
+			LLLLMMMMMMMM
+			""".trimIndent()
+		val expectedOutput = listOf(Position(X.of(1), Y.of(5), Direction.NORTH))
+
+
+		val output = mowersCLI.runKata(input)
+
+		assertThat(output).isEqualTo(expectedOutput)
+	}
+
+	@Test
+	fun `should do nothing if the robot is, at the beginning outside the plateau`() {
+		val input = """		
+			5 5
+			1 7 N
+			LLMMMM
 		""".trimIndent()
-		val expectedOutput = listOf(Robot.Position(X.of(1), Y.of(5), Direction.NORTH))
+		val expectedOutput = listOf(Position(X.of(1), Y.of(7), Direction.NORTH))
 
 
 		val output = mowersCLI.runKata(input)

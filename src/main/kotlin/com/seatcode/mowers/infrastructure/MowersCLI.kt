@@ -1,7 +1,7 @@
 package com.seatcode.mowers.infrastructure
 
 import com.seatcode.mowers.application.CalculateFinalPositions
-import com.seatcode.mowers.domain.Robot
+import com.seatcode.mowers.domain.robot.Position
 import org.springframework.boot.CommandLineRunner
 import org.springframework.stereotype.Component
 
@@ -14,7 +14,7 @@ class MowersCLI(private val servicio: CalculateFinalPositions,
         runKata(args.getOrNull(0) ?: "")
     }
 
-    fun runKata(input: String): List<Robot.Position> {
+    fun runKata(input: String): List<Position> {
         return servicio.execute(inputParser.parse(input))
     }
 }

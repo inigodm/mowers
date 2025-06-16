@@ -1,7 +1,9 @@
 package com.seatcode.mowers.application
 
-import com.seatcode.mowers.domain.Direction
-import com.seatcode.mowers.domain.Robot
+import com.seatcode.mowers.domain.robot.Movement
+import com.seatcode.mowers.domain.robot.Position
+import com.seatcode.mowers.domain.vo.Direction
+import com.seatcode.mowers.domain.robot.Robot
 import com.seatcode.mowers.domain.vo.Height
 import com.seatcode.mowers.domain.vo.Width
 import com.seatcode.mowers.domain.vo.X
@@ -23,11 +25,12 @@ data class RobotCommand(
     fun robotList(): List<Robot> {
         return robots.map { robotData ->
             Robot(
-                position = Robot.Position(
+                position = Position(
                     x = X.of(robotData.x),
                     y = Y.of(robotData.y),
-                    direction = Direction.fromString(robotData.orientation)),
-                movements = robotData.statusModifiers.map { Robot.Movement.fromString(it) }
+                    direction = Direction.fromString(robotData.orientation)
+                ),
+                movements = robotData.statusModifiers.map { Movement.fromString(it) }
             )
         }
     }

@@ -1,5 +1,7 @@
 package com.seatcode.mowers.domain
 
+import com.seatcode.mowers.domain.robot.Position
+import com.seatcode.mowers.domain.robot.Robot
 import com.seatcode.mowers.domain.vo.Height
 import com.seatcode.mowers.domain.vo.Width
 import com.seatcode.mowers.domain.vo.X
@@ -17,12 +19,12 @@ class PlateauMap {
     }
 
     fun isValidPosition(x: X, y: Y): Boolean {
-        return x.value in 0 until width.value + 1 && y.value in 0 until height.value + 1
+        return x.value in 0 until width.value  && y.value in 0 until height.value
     }
 
-    fun moveRobots(): List<Robot.Position> = robots.map { robot -> moveRobot(robot) }
+    fun moveRobots(): List<Position> = robots.map { robot -> moveRobot(robot) }
 
-    private fun moveRobot(robot: Robot) : Robot.Position {
+    private fun moveRobot(robot: Robot) : Position {
         var currentPosition = robot.position
         for (movement in robot.movements) {
             val newPosition = currentPosition.movementTo(movement)

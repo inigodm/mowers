@@ -1,7 +1,4 @@
-package com.seatcode.mowers.domain
-
-import com.seatcode.mowers.domain.vo.X
-import com.seatcode.mowers.domain.vo.Y
+package com.seatcode.mowers.domain.vo
 
 enum class Direction(val dx: X, val dy: Y) {
     NORTH(X.of(0), Y.of(1)),

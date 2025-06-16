@@ -15,8 +15,8 @@ class InputValidationTests {
             LLLMRM
         """.trimMargin()
         val res = InputParser().parse(input)
-        assertThat(res.plateauSizeX).isEqualTo(5)
-        assertThat(res.plateauSizeY).isEqualTo(6)
+        assertThat(res.plateauSizeX).isEqualTo(6)
+        assertThat(res.plateauSizeY).isEqualTo(7)
     }
 
     @Test
@@ -26,7 +26,7 @@ class InputValidationTests {
         """.trimMargin()
         val e = assertThrows<InvalidInputError> { InputParser().parse(input) }
         // I want this exact message in my logs if is an execution error
-        assertThat(e.message).isEqualTo("""First line of input should be a map size. p.e.: '5 5', actual value: 1 2 N""")
+        assertThat(e.message).isEqualTo("""Plateau size input should respect format:'<digits><spaces><digits>'. p.e.: '5 5', actual value: 1 2 N""")
 
     }
 
@@ -36,7 +36,7 @@ class InputValidationTests {
             LLLMRM
         """.trimMargin()
         val e = assertThrows<InvalidInputError> { InputParser().parse(input) }
-        assertThat(e.message).isEqualTo("""First line of input should be a map size. p.e.: '5 5', actual value: LLLMRM""".trimMargin())
+        assertThat(e.message).isEqualTo("""Plateau size input should respect format:'<digits><spaces><digits>'. p.e.: '5 5', actual value: LLLMRM""".trimMargin())
     }
 
     @Test
@@ -46,8 +46,8 @@ class InputValidationTests {
             LLLMRM
         """.trimMargin()
         val res = InputParser().parse(input)
-        assertThat(res.plateauSizeX).isEqualTo(5)
-        assertThat(res.plateauSizeY).isEqualTo(6)
+        assertThat(res.plateauSizeX).isEqualTo(6)
+        assertThat(res.plateauSizeY).isEqualTo(7)
     }
 
     @Test
@@ -63,10 +63,10 @@ class InputValidationTests {
     }
 
     @Test
-    fun `should accept multiple whitespaces wrapping robot status`() {
+    fun `should accept multiple whitespaces wrapping robot status and lowercases`() {
         val input = """   5   6   
-                1   2    N    
-               LLLMRM   
+                1   2    n    
+               lllmrm   
         """.trimMargin()
         val res = InputParser().parse(input)
         assertThat(res.robots[0].x).isEqualTo(1)
@@ -92,7 +92,9 @@ class InputValidationTests {
         """.trimMargin()
         val e = assertThrows<InvalidInputError> { InputParser().parse(input) }
         // I want this exact message in my logs if is an execution error
-        assertThat(e.message).isEqualTo("""Second line of input should be a robot initial state. p.e.: '1 2 N', actual value: """)
+        assertThat(e.message).isEqualTo(
+            "Robot initial state input should respect format:" +
+                    "'<digits><spaces><digits><one of NWSE>'. p.e.: '1 2 N', actual value: ")
     }
 
     @Test
@@ -103,7 +105,9 @@ class InputValidationTests {
         """.trimMargin()
         val e = assertThrows<InvalidInputError> { InputParser().parse(input) }
         // I want this exact message in my logs if is an execution error
-        assertThat(e.message).isEqualTo("""Second line of input should be a robot initial state. p.e.: '1 2 N', actual value: 1 2 X""")
+        assertThat(e.message).isEqualTo(
+            "Robot initial state input should respect format:" +
+                    "'<digits><spaces><digits><one of NWSE>'. p.e.: '1 2 N', actual value: 1 2 X")
     }
 
     @Test
@@ -114,7 +118,9 @@ class InputValidationTests {
         """.trimMargin()
         val e = assertThrows<InvalidInputError> { InputParser().parse(input) }
         // I want this exact message in my logs if is an execution error
-        assertThat(e.message).isEqualTo("""Second line of input should be a robot initial state. p.e.: '1 2 N', actual value: 1 X N""")
+        assertThat(e.message).isEqualTo(
+            "Robot initial state input should respect format:" +
+                    "'<digits><spaces><digits><one of NWSE>'. p.e.: '1 2 N', actual value: 1 X N")
     }
 
     @Test
@@ -143,7 +149,9 @@ class InputValidationTests {
 			LLLMRMZ
 		""".trimMargin()
         val e = assertThrows<InvalidInputError> { InputParser().parse(input) }
-        assertThat(e.message).isEqualTo("""Third line of input should be a robot state mutation list: A word with valid letters: L, R, M, as p.e.: 'LRMRLRRMMM', actual value: LLLMRMZ""")
+        assertThat(e.message).isEqualTo(
+            "Robot movements input should respect format:" +
+                    "'<any of LRM one or more times>'. p.e.: 'LRMRLRRMMM', actual value: LLLMRMZ")
     }
 
     @Test
@@ -153,7 +161,9 @@ class InputValidationTests {
 			
 		""".trimMargin()
         val e = assertThrows<InvalidInputError> { InputParser().parse(input) }
-        assertThat(e.message).isEqualTo("""Third line of input should be a robot state mutation list: A word with valid letters: L, R, M, as p.e.: 'LRMRLRRMMM', actual value: """)
+        assertThat(e.message).isEqualTo(
+            "Robot movements input should respect format:" +
+                    "'<any of LRM one or more times>'. p.e.: 'LRMRLRRMMM', actual value: ")
     }
 
     @Test
