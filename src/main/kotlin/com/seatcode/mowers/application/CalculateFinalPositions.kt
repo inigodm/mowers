@@ -1,12 +1,13 @@
 package com.seatcode.mowers.application
 
-import com.seatcode.mowers.domain.Direction
+import com.seatcode.mowers.domain.PlateauMap
 import com.seatcode.mowers.domain.Robot
-import com.seatcode.mowers.domain.vo.X
-import com.seatcode.mowers.domain.vo.Y
 import org.springframework.stereotype.Service
 
 @Service
 class CalculateFinalPositions {
-    fun execute(command: RobotCommand) = listOf(Robot.Position(X.of(1), Y.of(2), Direction.SOUTH))
+    fun execute(command: RobotCommand) : List<Robot.Position> {
+        val plateauMap = PlateauMap(command.plateauWidth(), command.plateauHeight(), command.robotList())
+        return plateauMap.moveRobots()
+    }
 }

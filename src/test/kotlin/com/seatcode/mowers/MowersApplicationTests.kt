@@ -11,7 +11,6 @@ import com.seatcode.mowers.infrastructure.InputParser
 import com.seatcode.mowers.infrastructure.MowersCLI
 import org.junit.jupiter.api.Test
 import kotlin.test.BeforeTest
-import kotlin.test.Ignore
 
 class MowersApplicationTests {
 
@@ -41,7 +40,6 @@ class MowersApplicationTests {
 	}
 
 	@Test
-	@Ignore
 	fun `should rotate left`() {
 		val input = """		
 			5 5
@@ -49,6 +47,51 @@ class MowersApplicationTests {
 			L
 		""".trimIndent()
 		val expectedOutput = listOf(Robot.Position(X.of(1), Y.of(2), Direction.WEST))
+
+
+		val output = mowersCLI.runKata(input)
+
+		assertThat(output).isEqualTo(expectedOutput)
+	}
+
+	@Test
+	fun `should rotate right`() {
+		val input = """		
+			5 5
+			1 2 N
+			R
+		""".trimIndent()
+		val expectedOutput = listOf(Robot.Position(X.of(1), Y.of(2), Direction.EAST))
+
+
+		val output = mowersCLI.runKata(input)
+
+		assertThat(output).isEqualTo(expectedOutput)
+	}
+
+	@Test
+	fun `should move north`() {
+		val input = """		
+			5 5
+			1 2 N
+			LLLLM
+		""".trimIndent()
+		val expectedOutput = listOf(Robot.Position(X.of(1), Y.of(3), Direction.NORTH))
+
+
+		val output = mowersCLI.runKata(input)
+
+		assertThat(output).isEqualTo(expectedOutput)
+	}
+
+	@Test
+	fun `should stop the robot before going outside the plateau`() {
+		val input = """		
+			5 5
+			1 2 N
+			LLLLMMMMMM
+		""".trimIndent()
+		val expectedOutput = listOf(Robot.Position(X.of(1), Y.of(5), Direction.NORTH))
 
 
 		val output = mowersCLI.runKata(input)
