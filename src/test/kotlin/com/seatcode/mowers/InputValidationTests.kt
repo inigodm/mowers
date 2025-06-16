@@ -11,7 +11,7 @@ class InputValidationTests {
     @Test
     fun `input must contain a first line which is the size of the plateau`() {
         val input = """5 6
-            1 2 N
+            1 2 W
             LLLMRM
         """.trimMargin()
         val res = InputParser().parse(input)
@@ -26,7 +26,21 @@ class InputValidationTests {
         """.trimMargin()
         val e = assertThrows<InvalidInputError> { InputParser().parse(input) }
         // I want this exact message in my logs if is an execution error
-        assertThat(e.message).isEqualTo("""Plateau size input should respect format:'<digits><spaces><digits>'. p.e.: '5 5', actual value: 1 2 N""")
+        assertThat(e.message).isEqualTo("Plateau size input should respect format:" +
+                "'<digits><spaces><digits>'. p.e.: '5 5', actual value: 1 2 N")
+
+    }
+
+    @Test
+    fun `Should fail if incomplete data reach for a robot`() {
+        val input = """
+            5 5
+            1 2 N
+            LLLMRM
+            1 2 N""".trimMargin()
+        val e = assertThrows<InvalidInputError> { InputParser().parse(input) }
+        assertThat(e.message).isEqualTo("Invalid number of lines in input: 3. It should be" +
+                " an even number greater than 2, as each robot has two lines of input.")
 
     }
 
@@ -36,13 +50,14 @@ class InputValidationTests {
             LLLMRM
         """.trimMargin()
         val e = assertThrows<InvalidInputError> { InputParser().parse(input) }
-        assertThat(e.message).isEqualTo("""Plateau size input should respect format:'<digits><spaces><digits>'. p.e.: '5 5', actual value: LLLMRM""".trimMargin())
+        assertThat(e.message).isEqualTo(("Plateau size input should respect format:" +
+                "'<digits><spaces><digits>'. p.e.: '5 5', actual value: LLLMRM").trimMargin())
     }
 
     @Test
     fun `should accept multiple whitespaces wrapping plateau size`() {
         val input = """                                 5 6                          
-            1 2 N
+            1 2 S
             LLLMRM
         """.trimMargin()
         val res = InputParser().parse(input)

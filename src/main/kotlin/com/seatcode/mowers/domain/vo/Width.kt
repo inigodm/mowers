@@ -9,6 +9,4 @@ value class Width private constructor(val value: Int) {
     companion object {
         fun of(value: Int): Width = Width(value)
     }
-
-    override fun toString(): String = "$value"
 }

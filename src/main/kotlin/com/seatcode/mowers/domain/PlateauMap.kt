@@ -2,6 +2,7 @@ package com.seatcode.mowers.domain
 
 import com.seatcode.mowers.domain.robot.Position
 import com.seatcode.mowers.domain.robot.Robot
+import com.seatcode.mowers.domain.robot.Robots
 import com.seatcode.mowers.domain.vo.Height
 import com.seatcode.mowers.domain.vo.Width
 import com.seatcode.mowers.domain.vo.X
@@ -10,9 +11,9 @@ import com.seatcode.mowers.domain.vo.Y
 class PlateauMap {
     private val width: Width
     private val height: Height
-    private val robots: List<Robot>
+    private val robots: Robots
 
-    constructor(width: Width, height: Height, robots: List<Robot>) {
+    constructor(width: Width, height: Height, robots: Robots) {
         this.width = width
         this.height = height
         this.robots = robots

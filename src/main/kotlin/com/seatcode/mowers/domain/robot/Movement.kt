@@ -5,14 +5,6 @@ enum class Movement {
     LEFT,
     RIGHT;
 
-    override fun toString(): String {
-        return when (this) {
-            MOVE -> "M"
-            LEFT -> "L"
-            RIGHT -> "R"
-        }
-    }
-
     companion object {
         fun fromString(value: String): Movement {
             return when (value.uppercase()) {

@@ -117,6 +117,36 @@ class MowersApplicationTests {
 	}
 
 	@Test
+	fun `plateau can be a file`() {
+		val input = """		
+			5 0
+			1 0 E
+			MMM
+		""".trimIndent()
+		val expectedOutput = listOf(Position(X.of(4), Y.of(0), Direction.EAST))
+
+
+		val output = mowersCLI.runKata(input)
+
+		assertThat(output).isEqualTo(expectedOutput)
+	}
+
+	@Test
+	fun `plateau can be a column`() {
+		val input = """		
+			0 5
+			0 1 N
+			MMM
+		""".trimIndent()
+		val expectedOutput = listOf(Position(X.of(0), Y.of(4), Direction.NORTH))
+
+
+		val output = mowersCLI.runKata(input)
+
+		assertThat(output).isEqualTo(expectedOutput)
+	}
+
+	@Test
 	fun `should do kata example properly`() {
 		mockkObject(MowersCLI.Consola)
 

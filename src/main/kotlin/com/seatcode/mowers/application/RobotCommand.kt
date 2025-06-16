@@ -4,6 +4,7 @@ import com.seatcode.mowers.domain.robot.Movement
 import com.seatcode.mowers.domain.robot.Position
 import com.seatcode.mowers.domain.vo.Direction
 import com.seatcode.mowers.domain.robot.Robot
+import com.seatcode.mowers.domain.robot.Robots
 import com.seatcode.mowers.domain.vo.Height
 import com.seatcode.mowers.domain.vo.Width
 import com.seatcode.mowers.domain.vo.X
@@ -22,16 +23,17 @@ data class RobotCommand(
         return Width.of(plateauSizeX)
     }
 
-    fun robotList(): List<Robot> {
-        return robots.map { robotData ->
-            Robot(
-                position = Position(
-                    x = X.of(robotData.x),
-                    y = Y.of(robotData.y),
-                    direction = Direction.fromString(robotData.orientation)
-                ),
-                movements = robotData.statusModifiers.map { Movement.fromString(it) }
-            )
-        }
+    fun robotList(): Robots {
+        return Robots(robots.map { robotData ->
+                Robot(
+                    position = Position(
+                        x = X.of(robotData.x),
+                        y = Y.of(robotData.y),
+                        direction = Direction.fromString(robotData.orientation)
+                    ),
+                    movements = robotData.statusModifiers.map { Movement.fromString(it) }
+                )
+            }
+        )
     }
 }
