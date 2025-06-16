@@ -22,6 +22,8 @@ I have parse the input in infra so the domain is not aware of the input format. 
 * I was hesitant to name classes with a single character, like X, Y... but seeing that JetBrains does it too, I assume it's less ugly than I thought.
 * I have tried to keep it simple, avoiding unnecessary complexity such as design patterns or abstractions. I only use abstractions when needed, and I have worked with design patterns so much that I have learned they can mostly be avoided by keeping the code simple.¯\_(ツ)_/¯
 * Robot was a data class with inner data classes as Movement and Position, and I have moved them to a separate package outside the Robot class, not sure but I feel it more readable this way
+* Robots is not needed, but usually is util to have a specific cllass to handle collections to manage the meaning of, as example, 'count' in the context of the domain, so I have added it. Usually I don't put them until needed but it adds low complexity IMHO
+* I have put the less number of unit tests possible.
 
 ## To execute it
 

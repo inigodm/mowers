@@ -1,4 +1,4 @@
-package com.seatcode.mowers.infrastructure
+package com.seatcode.mowers.infrastructure.parser
 
 
 class InvalidInputError(msg: String): RuntimeException(msg) {

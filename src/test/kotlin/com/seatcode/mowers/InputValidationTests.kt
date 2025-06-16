@@ -2,8 +2,8 @@ package com.seatcode.mowers
 
 import assertk.assertThat
 import assertk.assertions.isEqualTo
-import com.seatcode.mowers.infrastructure.InputParser
-import com.seatcode.mowers.infrastructure.InvalidInputError
+import com.seatcode.mowers.infrastructure.parser.InputParser
+import com.seatcode.mowers.infrastructure.parser.InvalidInputError
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 

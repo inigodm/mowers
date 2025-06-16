@@ -7,7 +7,7 @@ import com.seatcode.mowers.domain.robot.Position
 import com.seatcode.mowers.domain.vo.Direction
 import com.seatcode.mowers.domain.vo.X
 import com.seatcode.mowers.domain.vo.Y
-import com.seatcode.mowers.infrastructure.InputParser
+import com.seatcode.mowers.infrastructure.parser.InputParser
 import com.seatcode.mowers.infrastructure.MowersCLI
 import io.mockk.mockkObject
 import io.mockk.verify

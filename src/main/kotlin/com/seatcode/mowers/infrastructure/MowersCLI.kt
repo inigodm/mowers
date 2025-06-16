@@ -2,18 +2,24 @@ package com.seatcode.mowers.infrastructure
 
 import com.seatcode.mowers.application.CalculateFinalPositions
 import com.seatcode.mowers.domain.robot.Position
+import com.seatcode.mowers.infrastructure.parser.InputParser
 import org.springframework.boot.CommandLineRunner
 import org.springframework.stereotype.Component
 
 @Component
 class MowersCLI(private val service: CalculateFinalPositions,
-                private val inputParser: InputParser) : CommandLineRunner {
+                private val inputParser: InputParser
+) : CommandLineRunner {
 
     @Throws(Exception::class)
     override fun run(vararg args: String?) {
-        val input = args.filterNotNull().joinToString(" ")
-        val positions = runKata(input)
-        drawResults(positions)
+        try {
+            val input = args.filterNotNull().joinToString(" ")
+            val positions = runKata(input)
+            drawResults(positions)
+        } catch (e: Exception) {
+            Consola.printLine("Error processing input: ${e.message}")
+        }
     }
 
     fun runKata(input: String): List<Position> {

@@ -1,4 +1,4 @@
-package com.seatcode.mowers.infrastructure
+package com.seatcode.mowers.infrastructure.parser
 
 import com.seatcode.mowers.application.RobotCommand
 import com.seatcode.mowers.application.RobotData
