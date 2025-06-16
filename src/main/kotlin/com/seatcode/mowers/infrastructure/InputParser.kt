@@ -2,7 +2,9 @@ package com.seatcode.mowers.infrastructure
 
 import com.seatcode.mowers.application.RobotCommand
 import com.seatcode.mowers.application.RobotData
+import org.springframework.stereotype.Component
 
+@Component
 class InputParser {
     val regexPlateauSize = Regex("""(\d+)\s+(\d+)""") // Multispace?
     val regexRobotStatus = Regex("""(\d+)\s+(\d+)\s+([NSEW])""") // Multispace?
