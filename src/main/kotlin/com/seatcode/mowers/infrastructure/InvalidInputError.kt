@@ -1,7 +1,7 @@
 package com.seatcode.mowers.infrastructure
 
 
-class InvalidInputError(val msg: String): RuntimeException(msg) {
+class InvalidInputError(msg: String): RuntimeException(msg) {
     companion object {
         @JvmStatic
         fun becausePlateauSizeLineIsInIncorrectFormat(input: String) =

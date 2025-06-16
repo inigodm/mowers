@@ -1,7 +1,7 @@
 package com.seatcode.mowers.domain.vo
 
 @JvmInline
-value class X private constructor(val value: Int) {
+value class X (val value: Int) {
 
     companion object {
         fun of(value: Int): X = X(value)

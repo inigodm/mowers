@@ -5,11 +5,12 @@ import assertk.assertions.isEqualTo
 import com.seatcode.mowers.application.CalculateFinalPositions
 import com.seatcode.mowers.domain.robot.Position
 import com.seatcode.mowers.domain.vo.Direction
-import com.seatcode.mowers.domain.robot.Robot
 import com.seatcode.mowers.domain.vo.X
 import com.seatcode.mowers.domain.vo.Y
 import com.seatcode.mowers.infrastructure.InputParser
 import com.seatcode.mowers.infrastructure.MowersCLI
+import io.mockk.mockkObject
+import io.mockk.verify
 import org.junit.jupiter.api.Test
 import kotlin.test.BeforeTest
 
@@ -113,5 +114,41 @@ class MowersApplicationTests {
 		val output = mowersCLI.runKata(input)
 
 		assertThat(output).isEqualTo(expectedOutput)
+	}
+
+
+	@Test
+	fun `should print positions in correct order`() {
+		// Mockear println
+		mockkObject(MowersCLI.Consola)
+
+		val positions = listOf(
+			Position(X(1), Y(2), Direction.NORTH),
+			Position(X(3), Y(4), Direction.EAST)
+		)
+
+		mowersCLI.drawResults(positions)
+
+		// Verificar que se imprimen en el orden correcto
+		verify(exactly = 1) { MowersCLI.Consola.printLine("1 2 N") }
+		verify(exactly = 1) { MowersCLI.Consola.printLine("3 4 E") }
+	}
+
+	@Test
+	fun `should do fullfit kata`() {
+		mockkObject(MowersCLI.Consola)
+
+		val input = """		
+			5 5
+			1 2 N
+			LMLMLMLMM
+			3 3 E
+			MMRMMRMRRM
+		""".trimIndent()
+
+		mowersCLI.run(input)
+
+		verify(exactly = 1) { MowersCLI.Consola.printLine("1 3 N") }
+		verify(exactly = 1) { MowersCLI.Consola.printLine("5 1 E") }
 	}
 }

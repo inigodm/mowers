@@ -6,15 +6,26 @@ import org.springframework.boot.CommandLineRunner
 import org.springframework.stereotype.Component
 
 @Component
-class MowersCLI(private val servicio: CalculateFinalPositions,
+class MowersCLI(private val service: CalculateFinalPositions,
                 private val inputParser: InputParser) : CommandLineRunner {
 
     @Throws(Exception::class)
     override fun run(vararg args: String?) {
-        runKata(args.getOrNull(0) ?: "")
+        val positions = runKata(args.getOrNull(0) ?: "")
+        drawResults(positions)
     }
 
     fun runKata(input: String): List<Position> {
-        return servicio.execute(inputParser.parse(input))
+        return service.execute(inputParser.parse(input))
+    }
+
+    fun drawResults(positions: List<Position>) {
+        positions.forEach { position ->
+            Consola.printLine("${position.x.value} ${position.y.value} ${position.direction}")
+        }
+    }
+
+    object Consola {
+        fun printLine(mensaje: String) = println(mensaje)
     }
 }
