@@ -1,10 +1,13 @@
 package com.seatcode.mowers.domain
 
-enum class Direction(val dx: Int, val dy: Int) {
-    NORTH(1,0),
-    EAST(0,1),
-    SOUTH(-1,0),
-    WEST(-1,0);
+import com.seatcode.mowers.domain.vo.X
+import com.seatcode.mowers.domain.vo.Y
+
+enum class Direction(val dx: X, val dy: Y) {
+    NORTH(X.of(0), Y.of(1)),
+    EAST(X.of(1),Y.of(0)),
+    SOUTH(X.of(0),Y.of(-1)),
+    WEST(X.of(-1),Y.of(0));
 
     fun turnLeft(): Direction {
         return when (this) {
