@@ -22,7 +22,7 @@ class PlateauMap {
         return x.value in 0 until width.value  && y.value in 0 until height.value
     }
 
-    fun calculateNextPositions(): List<Position> = robots.map { robot -> calculateNextRobotPosition(robot) }
+    fun calculateNextRobotPositions(): List<Position> = robots.map { robot -> calculateNextRobotPosition(robot) }
 
     private fun calculateNextRobotPosition(robot: Robot) : Position {
         var currentPosition = robot.position
