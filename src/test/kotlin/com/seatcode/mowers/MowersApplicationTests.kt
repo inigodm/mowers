@@ -7,11 +7,13 @@ import com.seatcode.mowers.domain.robot.Position
 import com.seatcode.mowers.domain.vo.Direction
 import com.seatcode.mowers.domain.vo.X
 import com.seatcode.mowers.domain.vo.Y
+import com.seatcode.mowers.infrastructure.MowerManager
 import com.seatcode.mowers.infrastructure.parser.InputParser
 import com.seatcode.mowers.infrastructure.MowersCLI
 import io.mockk.mockkObject
 import io.mockk.verify
 import org.junit.jupiter.api.Test
+import org.springframework.boot.autoconfigure.condition.ConditionOutcome.match
 import kotlin.test.BeforeTest
 
 class MowersApplicationTests {
@@ -19,27 +21,36 @@ class MowersApplicationTests {
 	lateinit var inputParser: InputParser
 	lateinit var mowersCLI: MowersCLI
 	lateinit var calculateFinalPositions: CalculateFinalPositions
+	lateinit var mowersAdapter: MowerManager //Uso el real, en cualquier caso mockeare la consola interna que tiene...
 
 	@BeforeTest
 	fun setUp() {
 		inputParser = InputParser()
-		calculateFinalPositions = CalculateFinalPositions()
+		mowersAdapter = MowerManager()
+		calculateFinalPositions = CalculateFinalPositions(mowersAdapter)
 		mowersCLI = MowersCLI(calculateFinalPositions, inputParser)
 	}
 
 	@Test
 	fun `should respond to a valid input`() {
+
+		mockkObject(MowerManager.ConsoleMowler)
 		val input = """		
 			5 5
 			1 2 N
-			LL
+			LR
 		""".trimIndent()
-		val expectedOutput = listOf(Position(X.of(1), Y.of(2), Direction.SOUTH))
+		val expectedOutput = listOf(Position(X.of(1), Y.of(2), Direction.NORTH))
 
 		val output = mowersCLI.runKata(input)
 
 		assertThat(output).isEqualTo(expectedOutput)
+		verify(exactly = 1) {
+			MowerManager.ConsoleMowler.printLine(match { it.startsWith("Moving robot with id: ") && it.contains(", doing LEFT") })
+			MowerManager.ConsoleMowler.printLine(match { it.startsWith("Moving robot with id: ") && it.contains(", doing RIGHT") })
+		}
 	}
+
 
 	@Test
 	fun `should rotate left`() {

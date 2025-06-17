@@ -23,9 +23,9 @@ class PlateauMap {
         return x.value in 0 until width.value  && y.value in 0 until height.value
     }
 
-    fun calculateNextRobotPositions(): List<Position> = robots.map { robot -> calculateNextRobotPosition(robot) }
+    fun moveRobotsToNextPositions(mowerAdapter: MowerAdapter): List<Position> = robots.map { robot -> calculateNextRobotPosition(robot, mowerAdapter) }
 
-    private fun calculateNextRobotPosition(robot: Robot) : Position {
+    private fun calculateNextRobotPosition(robot: Robot, mowerAdapter: MowerAdapter) : Position {
         var currentPosition = robot.position
         for (movement in robot.movements) {
             val newPosition = currentPosition.movementTo(movement)
@@ -33,6 +33,7 @@ class PlateauMap {
                 println("Moving robot from ${robot.position} to $newPosition will drop it outside the plateau, stopping it")
                 break
             }
+            mowerAdapter.moveRobot(robot.id, movement)
             currentPosition = newPosition
         }
         return currentPosition
