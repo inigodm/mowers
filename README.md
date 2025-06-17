@@ -15,6 +15,8 @@ I have not use events, design patters or abstractions because I have not need th
 
 I have parse the input in infra so the domain is not aware of the input format. The domain is only aware of the commands and the grid. Validations are done in the infra layer for things about format as invalid characters, usually are more validations in domain but it has not been neccesary to do it in this case.
 
+I have add an interface to move the mowler 'physically' (it only does a println) to make it in domain and implement it in infra, as usually done. That way I can do an 'abstraction' and 'isolate infra from domain' and do a check in those buzzwords :P 
+
 # Technical decisions
 
 * I like to do those 'Errors', I find it more clean and exceptions are easier to track
